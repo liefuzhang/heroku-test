@@ -24,7 +24,7 @@ namespace heroku_test
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "heroku_test", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "heroku_test" });
             });
         }
 
@@ -35,7 +35,7 @@ namespace heroku_test
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "heroku_test v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "heroku_test"));
             }
 
             app.UseHttpsRedirection();
@@ -46,7 +46,7 @@ namespace heroku_test
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World v1!");
+                await context.Response.WriteAsync("Hello World v2!");
             });
         }
     }
