@@ -20,5 +20,6 @@ steps:
   inputs:
     script: |
       echo Write your commands here
-      git push -u origin %BUILD_SOURCEBRANCH
+      git remote add github https://github.com/liefuzhang/heroku-test.git
+      git push -u github $(Build.SourceBranchName)
       echo pushed to github
