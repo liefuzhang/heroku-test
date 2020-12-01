@@ -19,7 +19,8 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo Write your commands here
+      echo source branch is $(Build.SourceBranchName)
+      SET sourceBranch=origin/$(Build.SourceBranchName):refs/heads/=%
       git remote add github https://github.com/liefuzhang/heroku-test.git
       git push -u github $(Build.SourceBranchName)
       echo pushed to github
