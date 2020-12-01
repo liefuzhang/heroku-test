@@ -20,5 +20,5 @@ steps:
   inputs:
     script: |
       echo Write your commands here
-      
-      echo Hello world
+      git push -u origin %BUILD_SOURCEBRANCH
+      echo pushed to github
