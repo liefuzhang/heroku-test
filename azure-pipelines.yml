@@ -23,7 +23,7 @@ steps:
       $url = "https://api.github.com/repos/liefuzhang/heroku-test/pulls"
       Write-Host "URL: $url"
       $pipeline = Invoke-RestMethod -Uri $url -Body @{
-          Head = "feature/dd",
-          Base = "master"
+          head = "feature/dd"
+          base = "master"
       }
       Write-Host "Pipeline = $($pipeline | ConvertTo-Json -Depth 100)"
