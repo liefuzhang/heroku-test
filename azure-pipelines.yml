@@ -17,15 +17,16 @@ steps:
   displayName: 'Run a one-line script'
 
 
+
 - task: CmdLine@2
   inputs:
     script: |
-      echo source branch is $(Build.SourceBranch)
+      echo source branch is $(System.PullRequest.SourceBranch)
       git remote add github https://github.com/liefuzhang/heroku-test.git
       git remote add origin https://LiefuZhang@dev.azure.com/LiefuZhang/Liefu-Heroku-Test/_git/Liefu-Heroku-Test
-      git fetch origin
-      git checkout -b $(Build.SourceBranch) origin/$(Build.SourceBranch)
-      git push -u github $(Build.SourceBranch)
+      git featch origin
+      git checkout -b $(System.PullRequest.SourceBranch) origin/$(System.PullRequest.SourceBranch)
+      git push -u github $(System.PullRequest.SourceBranch)
       echo pushed to github
 
 - task: CmdLine@2
@@ -36,5 +37,5 @@ steps:
         -X POST \
         -H "Authorization: token 6cb30a004824e9365c1e7ae956b23b6369190c5b" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
-        -d '{"head":"$(Build.SourceBranch)","base":"master","title":"Merge $(Build.SourceBranch)"}'
+        -d '{"head":"$(System.PullRequest.SourceBranch)","base":"master","title":"Merge $(System.PullRequest.SourceBranch)"}'
     
