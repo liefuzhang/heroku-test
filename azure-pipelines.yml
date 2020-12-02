@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - feature/*
 
@@ -16,29 +11,26 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-
-
+- task: CmdLine@2
+  inputs:
+    script: ' x=`echo "$(System.PullRequest.SourceBranch)" | cut -b 12-`; echo "##vso[task.setvariable variable=MyVar]$x"'
+    
 - task: CmdLine@2
   inputs:
     script: |
-      echo source branch is $(System.PullRequest.SourceBranch)
-      set name=$(System.PullRequest.SourceBranch) | cut -b 12-
-      echo name is ${name}
+      echo MyVar is $(MyVar)
       git remote add github https://github.com/liefuzhang/heroku-test.git
-      git remote add origin https://LiefuZhang@dev.azure.com/LiefuZhang/Liefu-Heroku-Test/_git/Liefu-Heroku-Test
       git fetch origin
-      git checkout -b ${name} origin/${name}
-      git push -u github ${name}
-      echo pushed to github
+      git checkout -b $(MyVar) origin/$(MyVar)
+      git push https://c3d7c622dc75daeac620c93d2f471c5dfb54f216@github.com/liefuzhang/heroku-test.git $(MyVar)
+      echo pushed $(MyVar) to github
 
 - task: CmdLine@2
   inputs:
     script: |
-      echo Write your commands here
-      name=$(System.PullRequest.SourceBranch) | cut -b 12-
       curl \
         -X POST \
-        -H "Authorization: token 6cb30a004824e9365c1e7ae956b23b6369190c5b" \
+        -H "Authorization: token c3d7c622dc75daeac620c93d2f471c5dfb54f216" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
-        -d '{"head":"${name}","base":"master","title":"Merge ${name}"}'
-    
+        -d '{"head":"$(MyVar)","base":"master","title":"Merge $(MyVar)"}'    
+      echo Created pull request for  $(MyVar)
