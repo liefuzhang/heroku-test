@@ -16,13 +16,13 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- task: CmdLine@2
+- task: InvokeRESTAPI@1
   inputs:
-    script: |
-      echo source branch is $(Build.SourceBranchName)
-      git remote add github https://github.com/liefuzhang/heroku-test.git
-      git remote add origin https://LiefuZhang@dev.azure.com/LiefuZhang/Liefu-Heroku-Test/_git/Liefu-Heroku-Test
-      git featch origin
-      git checkout -b test origin/feature/dd
-      git push -u github test
-      echo pushed to github
+    method: 'POST'
+    headers: '{Content-Type:application/json}'
+    body: '{
+      "title": "Amazing new feature",
+      "body": "Please pull this in!",
+      "head": "feature/dd",
+      "base": "master"
+    }'
