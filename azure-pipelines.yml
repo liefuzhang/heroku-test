@@ -23,9 +23,10 @@ steps:
     script: |
       echo source branch is $(System.PullRequest.SourceBranch)
       name=$(System.PullRequest.SourceBranch) | cut -b 12-
+      echo name is ${name}
       git remote add github https://github.com/liefuzhang/heroku-test.git
       git remote add origin https://LiefuZhang@dev.azure.com/LiefuZhang/Liefu-Heroku-Test/_git/Liefu-Heroku-Test
-      git featch origin
+      git fetch origin
       git checkout -b ${name} origin/${name}
       git push -u github ${name}
       echo pushed to github
