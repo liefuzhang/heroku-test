@@ -21,10 +21,9 @@ steps:
   inputs:
     script: |
       echo Write your commands here
-      curl --header "Authorization:token 6cb30a004824e9365c1e7ae956b23b6369190c5b" https://api.github.com/repos/liefuzhang/heroku-test
       curl \
         -X POST \
-        -H "Accept: application/vnd.github.v3+json" \
+        -H "Authorization: token 6cb30a004824e9365c1e7ae956b23b6369190c5b" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
         -d '{"head":"feature/dd","base":"master"}'
     
