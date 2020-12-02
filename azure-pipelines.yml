@@ -21,5 +21,7 @@ steps:
     script: |
       echo source branch is $(Build.SourceBranchName)
       git remote add github https://github.com/liefuzhang/heroku-test.git
-      git push -u github feature/$(Build.SourceBranchName)
+      git remote add origin https://LiefuZhang@dev.azure.com/LiefuZhang/Liefu-Heroku-Test/_git/Liefu-Heroku-Test
+      git checkout origin feature/dd
+      git push -u github feature/dd
       echo pushed to github
