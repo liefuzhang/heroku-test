@@ -19,18 +19,19 @@ steps:
   inputs:
     script: |
       echo MyVar is $(MyVar)
+      echo Pushing $(MyVar) to github
       git remote add github https://github.com/liefuzhang/heroku-test.git
       git fetch origin
       git checkout -b $(MyVar) origin/$(MyVar)
       git push https://c3d7c622dc75daeac620c93d2f471c5dfb54f216@github.com/liefuzhang/heroku-test.git $(MyVar)
-      echo pushed $(MyVar) to github
 
 - task: CmdLine@2
   inputs:
     script: |
+      echo Creating Pull Request for $(MyVar) in github      
       curl \
         -X POST \
         -H "Authorization: token c3d7c622dc75daeac620c93d2f471c5dfb54f216" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
-        -d '{"head":"$(MyVar)","base":"master","title":"Merge $(MyVar)"}'    
-      echo Created pull request for  $(MyVar)
+        -d '{"head":"$(MyVar)","base":"master","title":"Merge $(MyVar)"}'
+    
