@@ -15,14 +15,21 @@ steps:
 
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
-
 - task: InvokeRESTAPI@1
   inputs:
+    connectionType: 'connectedServiceNameARM'
     method: 'POST'
-    headers: '{Content-Type:application/json}'
-    body: '{
-      "title": "Amazing new feature",
-      "body": "Please pull this in!",
-      "head": "feature/dd",
-      "base": "master"
-    }'
+    waitForCompletion: 'true'
+    body: '{"title": "Amazing new feature","body": "Please pull this in!","head": "feature/dd","base": "master"}'
+
+- task: PowerShell@2
+  inputs:
+   targetType: inline
+   script: |
+      $url = "https://api.github.com/repos/liefuzhang/heroku-test/pulls"
+      Write-Host "URL: $url"
+      $pipeline = Invoke-RestMethod -Uri $url -Body @{
+          Head = "feature/dd",
+          Base = "master"
+      }
+      Write-Host "Pipeline = $($pipeline | ConvertTo-Json -Depth 100)"
