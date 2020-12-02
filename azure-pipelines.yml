@@ -16,16 +16,14 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- task: PowerShell@2
+
+- task: CmdLine@2
   inputs:
-   targetType: inline
-   script: |
-      $url = "https://api.github.com/repos/liefuzhang/heroku-test/pulls"
-      Write-Host "URL: $url"
-      $pipeline = Invoke-RestMethod -Method 'Post' -Uri $url -Body @{
-          title= "Amazing new feature"
-          body= "please pull this in"
-          head = "feature/dd"
-          base = "master"
-      }
-      Write-Host "Pipeline = $($pipeline | ConvertTo-Json -Depth 100)"
+    script: |
+      echo Write your commands here
+      curl \
+        -X POST \
+        -H "Accept: application/vnd.github.v3+json" \
+        https://api.github.com/repos/liefuzhang/heroku-test/pulls \
+        -d '{"head":"feature/dd","base":"base"}'
+    
