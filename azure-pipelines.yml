@@ -22,7 +22,9 @@ steps:
    script: |
       $url = "https://api.github.com/repos/liefuzhang/heroku-test/pulls"
       Write-Host "URL: $url"
-      $pipeline = Invoke-RestMethod -Uri $url -Body @{
+      $pipeline = Invoke-RestMethod -Method 'Post' -Uri $url -Body @{
+          title: "Amazing new feature"
+          body: "please pull this in"
           head = "feature/dd"
           base = "master"
       }
