@@ -23,7 +23,7 @@ steps:
       echo source branch is $(Build.SourceBranch)
       git remote add github https://github.com/liefuzhang/heroku-test.git
       git remote add origin https://LiefuZhang@dev.azure.com/LiefuZhang/Liefu-Heroku-Test/_git/Liefu-Heroku-Test
-      git featch origin
+      git fetch origin
       git checkout -b $(Build.SourceBranch) origin/$(Build.SourceBranch)
       git push -u github $(Build.SourceBranch)
       echo pushed to github
