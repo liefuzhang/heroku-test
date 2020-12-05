@@ -41,12 +41,12 @@ steps:
   inputs:
     script: |
       echo Post Message to PR
-      $organization = "LiefuZhang"
-      $project = "Liefu-Heroku-Test"
-      $repositoryId = "$(Build.Repository.Name)"
-      $pullRequestId = 26
-      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullRequestId/threads?api-version=5.1"
-      $comment = @{
+      organization = "LiefuZhang"
+      project = "Liefu-Heroku-Test"
+      repositoryId = "$(Build.Repository.Name)"
+      pullRequestId = 26
+      pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullRequestId/threads?api-version=5.1"
+      comment = @{
         comments = @(
           @{
             content="TEST TLE FROM BUILD: $organization"
@@ -56,7 +56,7 @@ steps:
         )
         status = 4
       }
-      $json = @($comment) | ConvertTo-Json
+      json = @($comment) | ConvertTo-Json
 
       curl \
         -X POST \
