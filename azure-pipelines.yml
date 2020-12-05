@@ -21,3 +21,15 @@ steps:
       echo "##vso[task.setvariable variable=PullNumber;]$response"
   displayName: Create Pull Request for feature/test in github 
     
+- task: CmdLine@2
+  displayName: Post Message to PR
+  inputs:
+    script: |
+      echo Post Message to PR
+      $url = "$(System.TeamFoundationCollectionUri)$(System.TeamProjectId)/_apis/git/repositories/$(Build.Repository.Name)/pullRequests/$(System.PullRequest.PullRequestId)/threads?api-version=5.1"
+      echo $url is $(url)
+      curl \
+        -X POST \
+        -H "Authorization: token $(System.AccessToken)" \
+        $(url) \
+        -d '{"comments": [{"parentCommentId": 0,"content": "test","commentType": 1}]}'
