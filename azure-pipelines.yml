@@ -37,15 +37,13 @@ steps:
       $project = "Liefu-Heroku-Test"
       $repositoryId = "$(Build.Repository.Name)"
  
-      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$(PullNumber)/threads?api-version=5.1"
+      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/26/threads?api-version=5.1"
  
-      Write-Host "pullRequestThreadUrl"
-      Write-Host "$pullRequestThreadUrl"
       #Create a new comment (set as Closed)
       $comment = @{
            comments = @(
                @{
-                   content="TEST TLE FROM BUILD: $organization"
+                   content="$(PullNumber)"
                    parentCommentId=0
                    commentType=1
                 }
