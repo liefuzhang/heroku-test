@@ -8,30 +8,30 @@ steps:
 - checkout: self
   persistCredentials: true
 
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
 - task: CmdLine@2
   inputs:
-    script: ' x=`echo "$(System.PullRequest.SourceBranch)" | cut -b 12-`; echo "##vso[task.setvariable variable=MyVar]$x"'
-    
+    script: ' x=`echo "$(System.PullRequest.SourceBranch)" | cut -b 12-`; echo "##vso[task.setvariable variable=FeatureBranch]$x"'
+  displayName: Get feature branch name
+  
 - task: CmdLine@2
   inputs:
     script: |
-      echo MyVar is $(MyVar)
-      echo Pushing $(MyVar) to github
+      echo feature branch is $(FeatureBranch)
+      echo Pushing $(FeatureBranch) to github
       git remote add github https://github.com/liefuzhang/heroku-test.git
       git fetch origin
-      git checkout -b $(MyVar) origin/$(MyVar)
-      git push https://c3d7c622dc75daeac620c93d2f471c5dfb54f216@github.com/liefuzhang/heroku-test.git $(MyVar)
+      git checkout -b $(FeatureBranch) origin/$(FeatureBranch)
+      git push https://c3d7c622dc75daeac620c93d2f471c5dfb54f216@github.com/liefuzhang/heroku-test.git $(FeatureBranch)
+	displayName: Push $(FeatureBranch) to github
 
 - task: CmdLine@2
   inputs:
     script: |
-      echo Creating Pull Request for $(MyVar) in github      
+      echo Creating Pull Request for $(FeatureBranch) in github      
       curl \
         -X POST \
         -H "Authorization: token c3d7c622dc75daeac620c93d2f471c5dfb54f216" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
-        -d '{"head":"$(MyVar)","base":"master","title":"Merge $(MyVar)"}'
+        -d '{"head":"$(FeatureBranch)","base":"master","title":"Merge $(FeatureBranch)"}'
+	displayName: Create Pull Request for $(FeatureBranch) in github 
     
