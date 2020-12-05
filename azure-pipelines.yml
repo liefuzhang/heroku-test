@@ -25,7 +25,7 @@ steps:
       git push https://$(GITHUB_TOKEN)@github.com/liefuzhang/heroku-test.git $(FeatureBranch)
   
 - task: CmdLine@2
-  displayName: Create Pull Request for $(FeatureBranch) in github 
+  displayName: Create Pull Request for feature branch in github 
   inputs:
     script: |
       echo Creating Pull Request for $(FeatureBranch) in github      
