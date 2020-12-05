@@ -21,7 +21,7 @@ steps:
       git remote add github https://github.com/liefuzhang/heroku-test.git
       git fetch origin
       git checkout -b $(FeatureBranch) origin/$(FeatureBranch)
-      git push https://c3d7c622dc75daeac620c93d2f471c5dfb54f216@github.com/liefuzhang/heroku-test.git $(FeatureBranch)
+      git push https://$(GITHUB_TOKEN)@github.com/liefuzhang/heroku-test.git $(FeatureBranch)
   displayName: Push $(FeatureBranch) to github
 
 - task: CmdLine@2
@@ -30,7 +30,7 @@ steps:
       echo Creating Pull Request for $(FeatureBranch) in github      
       curl \
         -X POST \
-        -H "Authorization: token c3d7c622dc75daeac620c93d2f471c5dfb54f216" \
+        -H "Authorization: token $(GITHUB_TOKEN)" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
         -d '{"head":"$(FeatureBranch)","base":"master","title":"Merge $(FeatureBranch)"}'
   displayName: Create Pull Request for $(FeatureBranch) in github 
