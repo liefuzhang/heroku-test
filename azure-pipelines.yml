@@ -38,7 +38,7 @@ steps:
  
       $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullnumber/threads?api-version=5.1"
  
-      Create a new comment (set as Closed)
+      #Create a new comment (set as Closed)
       $comment = @{
            comments = @(
                @{
