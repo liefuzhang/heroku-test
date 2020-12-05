@@ -12,11 +12,11 @@ steps:
   inputs:
     script: |
       echo Creating Pull Request for feature/test in github      
-      response=curl \
+      response=$(curl \
         -X POST \
         -H "Authorization: token $(GITHUB_TOKEN)" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
-        -d '{"head":"feature/test","base":"master","title":"Merge feature/test"}' 
+        -d '{"head":"feature/test","base":"master","title":"Merge feature/test"}') 
       echo $response
       echo "##vso[task.setvariable variable=PullNumber;]$response"
   displayName: Create Pull Request for feature/test in github 
