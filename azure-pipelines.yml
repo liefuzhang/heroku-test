@@ -8,41 +8,58 @@ steps:
 - checkout: self
   persistCredentials: true
 
-- task: PowerShell@2
-  displayName: "Write Pull Request Comment"
-  inputs:
-    targetType: "inline"
-    script: |                      
-      Write-Host "Write Pull Request comment"
+# - task: PowerShell@2
+#   displayName: "Write Pull Request Comment"
+#   inputs:
+#     targetType: "inline"
+#     script: |                      
+#       Write-Host "Write Pull Request comment"
  
+#       $organization = "LiefuZhang"
+#       $project = "Liefu-Heroku-Test"
+#       $repositoryId = "$(Build.Repository.Name)"
+#       $pullRequestId = 26
+ 
+#       $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullRequestId/threads?api-version=5.1"
+ 
+#       Create a new comment (set as Closed)
+#       $comment = @{
+#            comments = @(
+#                @{
+#                    content="TEST TLE FROM BUILD: $organization"
+#                    parentCommentId=0
+#                    commentType=1
+#                 }
+#               )
+#               status = 4
+#          }
+ 
+#       $json = @($comment) | ConvertTo-Json
+#       $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Post -Body $json -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
+- task: CmdLine@2
+  displayName: Post Message to PR
+  inputs:
+    script: |
+      echo Post Message to PR
       $organization = "LiefuZhang"
       $project = "Liefu-Heroku-Test"
       $repositoryId = "$(Build.Repository.Name)"
       $pullRequestId = 26
- 
       $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullRequestId/threads?api-version=5.1"
- 
-      # Create a new comment (set as Closed)
       $comment = @{
-           comments = @(
-               @{
-                   content="TEST TLE FROM BUILD: $organization"
-                   parentCommentId=0
-                   commentType=1
-                }
-              )
-              status = 4
-         }
- 
+        comments = @(
+          @{
+            content="TEST TLE FROM BUILD: $organization"
+            parentCommentId=0
+            commentType=1
+          }
+        )
+        status = 4
+      }
       $json = @($comment) | ConvertTo-Json
-      $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Post -Body $json -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
-# - task: CmdLine@2
-#   displayName: Post Message to PR
-#   inputs:
-#     script: |
-#       echo Post Message to PR
-#       curl \
-#         -X POST \
-#         -H "Authorization: Bearer $(System.AccessToken)" \
-#         $(System.TeamFoundationCollectionUri)$(System.TeamProjectId)/_apis/git/repositories/$(Build.Repository.Name)/pullRequests/26/threads?api-version=5.1 \
-#         -d '{"comments": [{"parentCommentId": 0,"content": "test","commentType": 1}]}'
+
+      curl \
+        -X POST \
+        -H "Authorization: Bearer $(System.AccessToken)" \
+        $pullRequestThreadUrl \
+        -d '$json'
