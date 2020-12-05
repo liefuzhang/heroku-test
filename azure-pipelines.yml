@@ -16,8 +16,8 @@ steps:
       Write-Host "Write Pull Request comment"
  
       $organization = "LiefuZhang"
-      $project = "/Liefu-Heroku-Test"
-      $repositoryId = $(Build.Repository.Name)
+      $project = "Liefu-Heroku-Test"
+      $repositoryId = "$(Build.Repository.Name)"
       $pullRequestId = 26
  
       $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullRequestId/threads?api-version=5.1"
