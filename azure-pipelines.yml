@@ -23,6 +23,7 @@ steps:
         -H "Authorization: token $(GITHUB_TOKEN)" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
         -d '{"head":"feature/test","base":"master","title":"Merge feature/test"}' | jq -r '.number')
+      echo pullnumber is $pullnumber
       echo "##vso[task.setvariable variable=PullNumber;]$pullnumber"  
     
 - task: PowerShell@2
@@ -36,7 +37,7 @@ steps:
       $project = "Liefu-Heroku-Test"
       $repositoryId = "$(Build.Repository.Name)"
  
-      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullnumber/threads?api-version=5.1"
+      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$PullNumber/threads?api-version=5.1"
  
       Write-Host "pullRequestThreadUrl"
       Write-Host "$pullRequestThreadUrl"
