@@ -8,58 +8,47 @@ steps:
 - checkout: self
   persistCredentials: true
 
-# - task: PowerShell@2
-#   displayName: "Write Pull Request Comment"
-#   inputs:
-#     targetType: "inline"
-#     script: |                      
-#       Write-Host "Write Pull Request comment"
- 
-#       $organization = "LiefuZhang"
-#       $project = "Liefu-Heroku-Test"
-#       $repositoryId = "$(Build.Repository.Name)"
-#       $pullRequestId = 26
- 
-#       $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullRequestId/threads?api-version=5.1"
- 
-#       Create a new comment (set as Closed)
-#       $comment = @{
-#            comments = @(
-#                @{
-#                    content="TEST TLE FROM BUILD: $organization"
-#                    parentCommentId=0
-#                    commentType=1
-#                 }
-#               )
-#               status = 4
-#          }
- 
-#       $json = @($comment) | ConvertTo-Json
-#       $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Post -Body $json -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
 - task: CmdLine@2
-  displayName: Post Message to PR
+  displayName: Get feature branch name
+  inputs:
+    script: ' feature=`echo "$(System.PullRequest.SourceBranch)" | cut -b 12-`; echo "##vso[task.setvariable variable=FeatureBranch]$feature"'
+
+- task: CmdLine@2
+  displayName: Create Pull Request for feature/test in github 
   inputs:
     script: |
-      echo Post Message to PR
-      organization = $("LiefuZhang")
-      project = $("Liefu-Heroku-Test")
-      repositoryId = $("$(Build.Repository.Name)")
-      pullRequestId = $(26)
-      pullRequestThreadUrl = $("https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullRequestId/threads?api-version=5.1")
-      comment = $(@{
-        comments = @(
-          @{
-            content="TEST TLE FROM BUILD: $organization"
-            parentCommentId=0
-            commentType=1
-          }
-        )
-        status = 4
-      })
-      json = $@($comment) | ConvertTo-Json)
-
-      curl \
+      echo Creating Pull Request for feature/test in github      
+      pullnumber=$(curl \
         -X POST \
-        -H "Authorization: Bearer $(System.AccessToken)" \
-        $pullRequestThreadUrl \
-        -d '$json'
+        -H "Authorization: token $(GITHUB_TOKEN)" \
+        https://api.github.com/repos/liefuzhang/heroku-test/pulls \
+        -d '{"head":"feature/test","base":"master","title":"Merge feature/test"}' | jq -r '.number')
+      echo "##vso[task.setvariable variable=PullNumber;]$pullnumber"  
+    
+- task: PowerShell@2
+  displayName: "Write Pull Request Comment"
+  inputs:
+    targetType: "inline"
+    script: |                      
+      Write-Host "Write Pull Request comment"
+ 
+      $organization = "LiefuZhang"
+      $project = "Liefu-Heroku-Test"
+      $repositoryId = "$(Build.Repository.Name)"
+ 
+      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$pullnumber/threads?api-version=5.1"
+ 
+      Create a new comment (set as Closed)
+      $comment = @{
+           comments = @(
+               @{
+                   content="TEST TLE FROM BUILD: $organization"
+                   parentCommentId=0
+                   commentType=1
+                }
+              )
+              status = 4
+         }
+ 
+      $json = @($comment) | ConvertTo-Json
+      $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Post -Body $json -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
