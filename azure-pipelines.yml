@@ -26,10 +26,10 @@ steps:
   inputs:
     script: |
       echo Post Message to PR
-      $url = "$(System.TeamFoundationCollectionUri)$(System.TeamProjectId)/_apis/git/repositories/$(Build.Repository.Name)/pullRequests/$(System.PullRequest.PullRequestId)/threads?api-version=5.1"
-      echo $url is $(url)
+      url = $(System.TeamFoundationCollectionUri)$(System.TeamProjectId)/_apis/git/repositories/$(Build.Repository.Name)/pullRequests/26/threads?api-version=5.1
+      echo url is $url
       curl \
         -X POST \
         -H "Authorization: token $(System.AccessToken)" \
-        $(url) \
+        $url \
         -d '{"comments": [{"parentCommentId": 0,"content": "test","commentType": 1}]}'
