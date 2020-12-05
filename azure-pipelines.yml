@@ -34,8 +34,8 @@ steps:
               status = 4
          }
  
-         $json = @($comment) | ConvertTo-Json
-         $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Post -Body $json -ContentType "application/json" -Headers @{Authorization = "Bearer $(system_accesstoken)"}  
+      $json = @($comment) | ConvertTo-Json
+      $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Post -Body $json -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
 # - task: CmdLine@2
 #   displayName: Post Message to PR
 #   inputs:
