@@ -10,33 +10,14 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: ' feature=`echo "$(System.PullRequest.SourceBranch)" | cut -b 12-`; echo "##vso[task.setvariable variable=FeatureBranch]$feature"'
-  displayName: Get feature branch name
-  
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo feature branch is feature/test
-      echo Pushing feature/test to github
-      git remote add github https://github.com/liefuzhang/heroku-test.git
-      git fetch origin
-      git checkout -b feature/test origin/feature/test
-      git push https://$(GITHUB_TOKEN)@github.com/liefuzhang/heroku-test.git feature/test
-  displayName: Push feature/test to github
-
-- task: CmdLine@2
-  inputs:
     script: |
       echo Creating Pull Request for feature/test in github      
-      response=(curl \
+      response=curl \
         -X POST \
         -H "Authorization: token $(GITHUB_TOKEN)" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
-        -d '{"head":"feature/test","base":"master","title":"Merge feature/test"}') | grep -w number
+        -d '{"head":"feature/test","base":"master","title":"Merge feature/test"}' 
+      echo $response
       echo "##vso[task.setvariable variable=PullNumber;]$response"
   displayName: Create Pull Request for feature/test in github 
     
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo Response is $(response)
