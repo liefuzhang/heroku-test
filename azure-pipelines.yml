@@ -34,18 +34,6 @@ steps:
         -H "Authorization: token $(GITHUB_TOKEN)" \
         https://api.github.com/repos/liefuzhang/heroku-test/pulls \
         -d '{"head":"$(FeatureBranch)","base":"master","title":"Merge $(FeatureBranch)"}' | jq -r '.number')
-      echo "##vso[task.setvariable variable=PullNumber;]$pullnumber"  
-    
-- task: CmdLine@2
-  displayName: Create Pull Request for $(FeatureBranch) in github 
-  inputs:
-    script: |
-      echo Creating Pull Request for $(FeatureBranch) in github      
-      pullnumber=$(curl \
-        -X POST \
-        -H "Authorization: token $(GITHUB_TOKEN)" \
-        https://api.github.com/repos/liefuzhang/heroku-test/pulls \
-        -d '{"head":"$(FeatureBranch)","base":"master","title":"Merge $(FeatureBranch)"}' | jq -r '.number')
       echo pullnumber is $pullnumber
       echo "##vso[task.setvariable variable=PullNumber]$pullnumber"  
     
