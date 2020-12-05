@@ -52,7 +52,7 @@ steps:
       $comment = @{
            comments = @(
                @{
-                   content="$(PullNumber)"
+                   content="github pull request: https://github.com/liefuzhang/heroku-test/pull/$(PullNumber) \n review app: https://heroku-test-pr-$(PullNumber).herokuapp.com/"
                    parentCommentId=0
                    commentType=1
                 }
