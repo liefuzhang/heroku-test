@@ -46,7 +46,7 @@ namespace heroku_test
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World v6");
+                await context.Response.WriteAsync("Hello World demo");
             });
         }
     }
