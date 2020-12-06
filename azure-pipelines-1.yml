@@ -30,6 +30,6 @@ steps:
  
       $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/36/properties?api-version=6.0-preview.1"
 
-      $result = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Get -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"} | jq -r '.value.sampleId.$value' 
+      $result = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Get -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"} | jq -r '.value.sampleId' 
     
       Write-Host $result 
