@@ -37,6 +37,7 @@ steps:
       
       $result = ($result | convertto-json -depth 100)
       Write-Host $result
-      Write-Host $result | jq -r '.value'
-      Write-Host $result | jq -r '.value.sampleId'
-      Write-Host $result | jq -r '.value.sampleId.$value'
+      $result = $result | jq -r '.value'
+      Write-Host $result
+      $result = $result | jq -r '.value.sampleId'
+      Write-Host $result
