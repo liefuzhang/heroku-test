@@ -34,10 +34,13 @@ steps:
     
       
       Write-Host $result.value.sampleId
-      
+      $test = Get-Member -inputObject $result -name "value" | Out-String
+      Write-Host $test
+      Write-Host **************************************
+
       $result = ($result | convertto-json -depth 100)
       Write-Host $result
-      $result = $result | jq -r '.value'
+      $result = $result | jq '.value'
       Write-Host $result
-      $result = $result | jq -r '.value.sampleId'
+      $result = $result | jq '.value.sampleId'
       Write-Host $result
