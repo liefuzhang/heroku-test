@@ -28,7 +28,7 @@ steps:
       $project = "Liefu-Heroku-Test"
       $repositoryId = "Liefu-Heroku-Test"
  
-      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/36/properties?api-version=5.1"
+      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/36/properties?api-version=6.0-preview.1"
 
       $pullRequestNumber = @(
         @{
