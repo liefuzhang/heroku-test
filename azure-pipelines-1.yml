@@ -39,5 +39,5 @@ steps:
       )
  
       $json = @($pullRequestNumber) | ConvertTo-Json
-      $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Patch -Body $json -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
+      $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Patch -Body $json -ContentType "application/json-patch+json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
       
