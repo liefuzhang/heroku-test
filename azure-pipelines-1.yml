@@ -37,4 +37,4 @@ steps:
       Write-Host $result.value.sampleId.value
       Write-Host $result.value.sampleId.$value
       Write-Host $result.value.sampleId."$value"
-      Write-Host "value = " + $result.value.sampleId["$value"]
+      Write-Host "value = $result.value.sampleId"
