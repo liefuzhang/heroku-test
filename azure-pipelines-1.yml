@@ -14,7 +14,7 @@ steps:
   persistCredentials: true
 
 - task: CmdLine@2
-  displayName: Push master to github
+  displayName: Merge github pull request 
   inputs:
     script: |
       git checkout master
