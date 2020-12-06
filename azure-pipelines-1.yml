@@ -17,7 +17,15 @@ steps:
   displayName: "Complete github pull request step 1"
   inputs:
     targetType: "inline"
-    script: |                      
+    script: |                    
+      Write-Host System.PhaseDisplayName $(System.PhaseDisplayName)
+      Write-Host System.JobName $(System.JobName)
+      Write-Host System.JobDisplayName $(System.JobDisplayName)
+      Write-Host System.PullRequest.PullRequestNumber $(System.PullRequest.PullRequestNumber)
+      Write-Host System.PullRequest.SourceBranch $(System.PullRequest.SourceBranch)
+      Write-Host System.PhaseName $(System.PhaseName)
+
+
       $organization = "LiefuZhang"
       $project = "Liefu-Heroku-Test"
       $repositoryId = "Liefu-Heroku-Test" 
