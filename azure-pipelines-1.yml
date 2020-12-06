@@ -17,7 +17,5 @@ steps:
   displayName: Push master to github
   inputs:
     script: |
-      git remote add github https://github.com/liefuzhang/heroku-test.git
-      git fetch origin
-      git checkout -b master origin/master
+      git checkout master
       git push https://$(GITHUB_TOKEN)@github.com/liefuzhang/heroku-test.git master
