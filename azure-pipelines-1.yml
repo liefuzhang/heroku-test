@@ -30,14 +30,6 @@ steps:
  
       $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/36/properties?api-version=6.0-preview.1"
 
-      $pullRequestNumber = @(
-        @{
-          op="add"
-          path="/sampleId"
-          value=8
-        }
-      )
- 
-      $json = ConvertTo-Json $pullRequestNumber 
-      $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Patch -Body $json -ContentType "application/json-patch+json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
-      
+      $result = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Get -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
+    
+      Write-Host $result
