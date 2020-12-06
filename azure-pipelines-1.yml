@@ -32,8 +32,9 @@ steps:
 
       $result = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Get -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}
     
+      Write-Host result0 $result.value.sampleId
       Write-Host result1 $result.value["sampleId"]
-      Write-Host result2 $result.value.sampleId["`$`value"]
+      Write-Host result2 $result.value.sampleId.`$`value
 
       Write-Host $result.value.sampleId
       $test = Get-Member -inputObject $result -name "value" | Out-String
