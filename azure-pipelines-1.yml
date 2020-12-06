@@ -35,6 +35,6 @@ steps:
       
       Write-Host $result.value.sampleId
       
-      $response = ($response | convertto-json -depth 100)
-      Write-Host $response 
+      $result = ($result | convertto-json -depth 100)
+      Write-Host $result 
       
