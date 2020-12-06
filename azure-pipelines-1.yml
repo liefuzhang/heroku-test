@@ -34,7 +34,6 @@ steps:
         @{
           op="add"
           path="/sampleId"
-          from=null
           value=8
         }
       )
