@@ -33,4 +33,4 @@ steps:
       $result = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Get -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"} 
     
       
-      Write-Host $result.value
+      Write-Host $result.value.sampleId
