@@ -14,7 +14,7 @@ steps:
     script: ' feature=`echo "$(System.PullRequest.SourceBranch)" | cut -b 12-`; echo "##vso[task.setvariable variable=FeatureBranch]$feature"'
     
 - task: CmdLine@2
-  displayName: Push $(FeatureBranch) to github
+  displayName: Push feature branch to github
   inputs:
     script: |
       echo feature branch is $(FeatureBranch)
