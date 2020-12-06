@@ -34,11 +34,10 @@ steps:
         @{
           op="add"
           path="/sampleId"
-          from=""
           value=8
         }
       )
  
-      $json = @($pullRequestNumber) | ConvertTo-Json
+      $json = ConvertTo-Json $pullRequestNumber 
       $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Patch -Body $json -ContentType "application/json-patch+json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
       
