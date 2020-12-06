@@ -1,0 +1,44 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  persistCredentials: true
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+
+
+- task: PowerShell@2
+  displayName: "Write Pull Request Comment"
+  inputs:
+    targetType: "inline"
+    script: |                      
+      $organization = "LiefuZhang"
+      $project = "Liefu-Heroku-Test"
+      $repositoryId = "Liefu-Heroku-Test"
+ 
+      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/36/properties?api-version=5.1"
+
+      $pullRequestNumber = @[
+        @{
+          op="add"
+          path="/sampleId"
+          from=null
+          value=8
+        }
+      ]
+ 
+      $json = @($pullRequestNumber) | ConvertTo-Json
+      $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Patch -Body $json -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
+      
