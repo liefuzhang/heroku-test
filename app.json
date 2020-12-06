@@ -1,3 +1,4 @@
 {
-  "name": "identity test"
+  "name": "identity test",
+  "stack": "container"
 }
