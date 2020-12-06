@@ -62,26 +62,3 @@ steps:
  
       $json = @($comment) | ConvertTo-Json
       $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Post -Body $json -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
-
-- task: PowerShell@2
-  displayName: "Add github pull number as Pull Request property"
-  inputs:
-    targetType: "inline"
-    script: |                      
-      $organization = "LiefuZhang"
-      $project = "Liefu-Heroku-Test"
-      $repositoryId = "Liefu-Heroku-Test"
- 
-      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$(System.PullRequest.PullRequestId)/properties?api-version=6.0-preview.1"
-
-      $pullRequestNumber = @(
-        @{
-          op="add"
-          path="/pullNumber"
-          value=$(PullNumber)
-        }
-      )
- 
-      $json = ConvertTo-Json $pullRequestNumber 
-      $commentResult = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Patch -Body $json -ContentType "application/json-patch+json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}  
-      
