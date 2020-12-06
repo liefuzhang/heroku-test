@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -13,37 +13,27 @@ steps:
 - checkout: self
   persistCredentials: true
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
-
 - task: PowerShell@2
-  displayName: "Write Pull Request Comment"
+  displayName: "Complete github pull request step 1"
   inputs:
     targetType: "inline"
     script: |                      
       $organization = "LiefuZhang"
       $project = "Liefu-Heroku-Test"
-      $repositoryId = "Liefu-Heroku-Test"
- 
-      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/36/properties?api-version=6.0-preview.1"
+      $repositoryId = "Liefu-Heroku-Test" 
+      $pullRequestThreadUrl = "https://dev.azure.com/$organization/$project/_apis/git/repositories/$repositoryId/pullRequests/$(System.PullRequest.PullRequestId)/properties?api-version=6.0-preview.1"
 
       $result = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Get -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}
     
-      Write-Host result0 $result.value.sampleId
-      Write-Host result2 $result.value.sampleId.'$value'
+      $pullNumber = $result.value.sampleId.'$value'
+      Write-Host pullNumber is $pullNumber
+      echo "##vso[task.setvariable variable=PullNumber]$pullnumber"
 
-      Write-Host $result.value.sampleId
-      $test = Get-Member -inputObject $result -name "value" | Out-String
-      Write-Host $test
-      Write-Host **************************************
-
-      $result = ($result | convertto-json -depth 100)
-      $result1 = $result | jq '.value'
-      Write-Host $result1
-      $result2 = $result | jq '.value.sampleId'
-      Write-Host $result2
-      $result3 = $result | jq '.value.sampleId[`$`value]'
-      Write-Host $result3
+- task: CmdLine@2
+  displayName: "Complete github pull request step 2"
+  inputs:
+    script: |
+      curl \
+        -X PUT \
+        -H "Authorization: token $(GITHUB_TOKEN)" \
+        https://api.github.com/repos/liefuzhang/heroku-test/pulls/$(PullNumber)/merge'
