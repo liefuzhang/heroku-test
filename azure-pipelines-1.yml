@@ -32,10 +32,9 @@ steps:
 
       $result = Invoke-RestMethod -Uri $pullRequestThreadUrl -Method Get -ContentType "application/json" -Headers @{Authorization = "Bearer $(System.AccessToken)"}
     
-      $result.value | ForEach-Object {
-          Write-Host here $_
-          Write-Host $_.name
-          Write-Host $_.value
-      }
       
       Write-Host $result.value.sampleId
+      
+      $response = ($response | convertto-json -depth 100)
+      Write-Host $response 
+      
