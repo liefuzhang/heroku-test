@@ -34,3 +34,5 @@ steps:
     
       
       Write-Host $result.value.sampleId
+      Write-Host $result.value.sampleId.value
+      Write-Host $result.value.sampleId.$value
