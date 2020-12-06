@@ -43,5 +43,5 @@ steps:
       Write-Host $result1
       $result2 = $result | jq '.value.sampleId'
       Write-Host $result2
-      $result3 = $result | jq '.value.sampleId["$value"]'
+      $result3 = $result | jq '.value.sampleId["\$value"]'
       Write-Host $result3
